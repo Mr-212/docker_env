@@ -1,0 +1,43 @@
+version: '3.7'
+
+services:
+  php74:
+    build:
+      context: .
+      dockerfile: ./php74/Dockerfile
+    ports:
+      - 80:80
+    volumes:
+      - ./www:/var/www/html
+    networks:
+      - app-network 
+
+  # nodejs:
+  #   build: 
+  #     context: .
+  #     dockerfile: ./node/Dockerfile
+  #   container_name: nodejs
+  #   volumes:
+  #     - ./www:/var/www/html
+  #   networks:
+  #     - app-network
+  #   restart: 'no'
+    
+
+  db:
+    image: mysql
+    command: --default-authentication-plugin=mysql_native_password --datadir=/var/lib/mysql-no-volume
+    restart: always
+    volumes:
+      - ./volumes/mysql:/var/lib/mysql
+    environment:
+      MYSQL_ROOT_PASSWORD: rootp #example of a password
+
+  phpmyadmin:
+    image: phpmyadmin
+    restart: always
+    ports:
+      - 8080:80
+
+networks:
+  app-network:
