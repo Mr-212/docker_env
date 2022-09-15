@@ -48,3 +48,4 @@ RUN ln -sf /usr/local/lib/node_modules/npm/bin/npm-cli.js /usr/local/bin/npm
 
 # RUN docker-php-ext-install zip
 # RUN php -r "readfile('http://getcomposer.org/installer');" | php -- --install-dir=/usr/bin/ --filename=composer
+CMD ["apache2ctl","-D","FOREGROUND"]

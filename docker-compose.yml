@@ -7,8 +7,12 @@ services:
       dockerfile: ./php74/Dockerfile
     ports:
       - 80:80
+      - 8000:80
+
     volumes:
-      - ./www:/var/www/html
+      - ${HOST_DIR}:${WORKING_DIR}
+    env_file:
+      - ./.env
     networks:
       - app-network 
 
@@ -41,3 +45,11 @@ services:
 
 networks:
   app-network:
+
+# volumes:
+#   host_dir:
+#     driver: local
+#     driver_opts:
+#       type: 'none'
+#       o: 'bind'
+#       device: ${HOST_DIR}
