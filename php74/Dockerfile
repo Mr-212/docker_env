@@ -13,7 +13,8 @@ RUN apt install -y zip \
     libicu-dev \
     libgd-dev \
     libonig-dev\
-    git
+    git\
+    gedit
 
 RUN docker-php-ext-install mysqli exif \
     gd \

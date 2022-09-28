@@ -11,6 +11,7 @@ services:
 
     volumes:
       - ${HOST_DIR}:${WORKING_DIR}
+      - ./php74/apache2.conf:/etc/apache2/sites-available/apache2.conf
     env_file:
       - ./.env
     networks:
