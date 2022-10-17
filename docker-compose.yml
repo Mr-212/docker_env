@@ -6,16 +6,31 @@ services:
       context: .
       dockerfile: ./php74/Dockerfile
     ports:
-      - 80:80
-      - 8000:80
-
+      # - 80:80
+      - 8001:80
     volumes:
       - ${HOST_DIR}:${WORKING_DIR}
-      - ./php74/apache2.conf:/etc/apache2/sites-available/apache2.conf
+      - ./php74/000-default.conf:/etc/apache2/sites-available/000-default.conf
     env_file:
       - ./.env
     networks:
       - app-network 
+
+  php8.0:
+    build:
+      context: .
+      dockerfile: ./php8.0/Dockerfile
+    #command: 'php artisan serve --host=0.0.0.0 --port=8002'  
+    ports:
+      # - 80:80
+      - 8002:8002
+    volumes:
+      - ${HOST_DIR}:${WORKING_DIR}
+      - ./php74/000-default.conf:/etc/apache2/sites-available/000-default.conf
+    env_file:
+      - ./.env
+    networks:
+      - app-network     
 
   # nodejs:
   #   build: 
@@ -36,7 +51,9 @@ services:
     volumes:
       - ./volumes/mysql:/var/lib/mysql
     environment:
-      MYSQL_ROOT_PASSWORD: rootp #example of a password
+      MYSQL_ROOT_PASSWORD: root #example of a password
+    ports:
+      - '3306:3306'  
 
   phpmyadmin:
     image: phpmyadmin

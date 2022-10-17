@@ -2,7 +2,7 @@
 FROM node:latest
 FROM composer:latest
 # WORKDIR /var/www/html
-FROM php:7.4-apache
+FROM php:8.0-apache
 #USER root
 
 # EXPOSE 8080
@@ -52,8 +52,9 @@ RUN ln -sf /usr/local/lib/node_modules/npm/bin/npm-cli.js /usr/local/bin/npm
 # RUN chown -R $(whoami) /usr/local/bin/npm
 # RUN chmod -R 777 /usr/local/bin/npm
 # RUN chown -R root:root /usr/local/bin/npm
-
+RUN chmod -R 0777 ${WORKDIR}
 
 # RUN docker-php-ext-install zip
 # RUN php -r "readfile('http://getcomposer.org/installer');" | php -- --install-dir=/usr/bin/ --filename=composer
-CMD ["apache2ctl", "-D", "FOREGROUND"]
+CMD ["apache2ctl","-D","FOREGROUND"]
+#CMD php artisan serve --host=0.0.0.0 --port=8002
