@@ -1,6 +1,22 @@
 version: '3.7'
 
 services:
+
+  apache:
+    build:
+      context: .
+      dockerfile: ./apache/Dockerfile
+    #command: 'php artisan serve --host=0.0.0.0 --port=8002'  
+    # ports:
+    #   # - 80:80
+    #   - 80:80
+    volumes:
+      - ${HOST_DIR}:${WORKING_DIR}
+      - ./apache/000-default.conf:/etc/apache2/sites-available/000-default.conf
+    env_file:
+      - ./.env
+    networks:
+      - app-network 
   php74:
     build:
       context: .
@@ -26,7 +42,7 @@ services:
       - 8002:8002
     volumes:
       - ${HOST_DIR}:${WORKING_DIR}
-      - ./php74/000-default.conf:/etc/apache2/sites-available/000-default.conf
+      # - ./php74/000-default.conf:/etc/apache2/sites-available/000-default.conf
     env_file:
       - ./.env
     networks:
