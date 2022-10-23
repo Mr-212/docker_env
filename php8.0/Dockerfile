@@ -8,31 +8,14 @@ FROM php:8.0.5-fpm-alpine
 USER root
 
 # EXPOSE 8080
-RUN apk update
-RUN apk add make \
-    apache2 \
-    nginx \
-    git \
-    nano \
-    # gedit \
-    curl \
-    php-zip\
-    # php-apcu \
-    php-curl \    
-    php-mysqli \
-    php-exif \
-    php-gd \
-    php-tokenizer \
-    php-iconv \
-    php-intl \
-    php-mbstring \
-    php-opcache \
-    php-pdo_mysql \
-    php-sockets \
-    php-json \
-    php-opcache \
-    php-openssl \
-    php-pcntl \
+RUN apk update && apk add --no-cache \
+    make git nano vim curl \
+    apache2 nginx \
+    freetype-dev libjpeg-turbo-dev libltdl libmcrypt-dev bzip2-dev libxslt-dev openssl-dev imap-dev krb5-dev oniguruma-dev libpng-dev libxslt-dev icu-dev g++ \
+    php-zip php-curl php-mysqli php-pdo_mysql \
+    php-gd php-exif php-tokenizer php-iconv php-intl php-mbstring  php-opcache \
+    php-sockets php-json \
+    php-opcache php-openssl php-pcntl \
     php-dom php-xml php-xmlwriter php-fileinfo php-zlib php-session php-simplexml
 
 

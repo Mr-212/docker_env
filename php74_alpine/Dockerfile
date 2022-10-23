@@ -5,16 +5,11 @@ FROM php:7.4-fpm-alpine
 USER root
 
 # EXPOSE 8080
-RUN apk update
-RUN apk add make \
-    apache2 \
-    nginx \
-    git \
-    nano \
-    gedit \
-    curl \
+RUN apk update && apk add --no-cache \
+    make git nano vim curl\
+    apache2 nginx \
+    freetype-dev libjpeg-turbo-dev libltdl libmcrypt-dev bzip2-dev libxslt-dev openssl-dev imap-dev krb5-dev oniguruma-dev libpng-dev libxslt-dev icu-dev g++ \
     php-zip\
-    # php-apcu \
     php-curl \    
     php-mysqli \
     php-exif \

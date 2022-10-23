@@ -23,59 +23,60 @@ services:
   #     - app-network 
   php74_alpine:
     container_name: php74_alpine
+    image: sys_env_php74_alpine:latest
     build:
       context: .
       dockerfile: ./php74_alpine/Dockerfile
     ports:
-      - 80:80
-      - 8001:8000
+      - 8009:8000
     volumes:
       - ${HOST_DIR}:${WORKING_DIR}
       # - ./php74/000-default.conf:/etc/apache2/sites-available/000-default.conf
     env_file:
       - ./.env
+    # depends_on:
+    #   - cache  
     networks:
       - app-network 
 
-  php74:
-    container_name: php74
-    build:
-      context: .
-      dockerfile: ./php74/Dockerfile
-    ports:
-      - 80:80
-      - 8002:8000
-    volumes:
-      - ${HOST_DIR}:${WORKING_DIR}
-      # - ./php74/000-default.conf:/etc/apache2/sites-available/000-default.conf
-    env_file:
-      - ./.env
-    networks:
-      - app-network     
+  # php74:
+  #   container_name: php74
+  #   build:
+  #     context: .
+  #     dockerfile: ./php74/Dockerfile
+  #   ports:
+  #     - 8002:8000
+  #   volumes:
+  #     - ${HOST_DIR}:${WORKING_DIR}
+  #     # - ./php74/000-default.conf:/etc/apache2/sites-available/000-default.conf
+  #   env_file:
+  #     - ./.env
+  #   networks:
+  #     - app-network     
 
-  php8.0:
-    container_name: php80
-    build:
-      context: .
-      dockerfile: ./php8.0/Dockerfile
-    # command: 'chmod -R 0777 ${WORKING_DIR}'  
-    ports:
-      # - "80:80"
-      - "8007:8007"
-      - "2525:2525"
-    # expose:
-    #   - 8000
-    #   - 80
+  # php8.0:
+  #   container_name: php80
+  #   build:
+  #     context: .
+  #     dockerfile: ./php8.0/Dockerfile
+  #   # command: 'chmod -R 0777 ${WORKING_DIR}'  
+  #   ports:
+  #     # - "80:80"
+  #     - "8003:8000"
+  #     - "2525:2525"
+  #   # expose:
+  #   #   - 8000
+  #   #   - 80
 
-    volumes:
-      - ${HOST_DIR}:${WORKING_DIR}
-      - ./apache/officio.conf:/etc/apache2/sites-available/officio.conf
+  #   volumes:
+  #     - ${HOST_DIR}:${WORKING_DIR}
+  #     - ./apache/officio.conf:/etc/apache2/sites-available/officio.conf
 
-      # - ./php74/000-default.conf:/etc/apache2/sites-available/000-default.conf
-    env_file:
-      - ./.env
-    networks:
-      - app-network     
+  #     # - ./php74/000-default.conf:/etc/apache2/sites-available/000-default.conf
+  #   env_file:
+  #     - ./.env
+  #   networks:
+  #     - app-network     
 
   # nodejs:
   #   build: 
@@ -106,8 +107,20 @@ services:
     ports:
       - 8080:80
 
+  cache:
+    image: redis:6.2-alpine
+    restart: always
+    ports:
+      - '6379:6379'
+    command: redis-server --save 20 1 --loglevel warning --requirepass eYVX7EwVmmxKPCDmwMtyKVge8oLd2t81
+    volumes: 
+      - ./cache:/var/lib/redis
+    networks:
+      - app-network  
+
 networks:
   app-network:
+    driver: bridge
 
 # volumes:
 #   host_dir:
