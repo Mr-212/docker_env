@@ -1,10 +1,7 @@
 FROM node:18-alpine3.15 AS node
 FROM composer:2.3 AS composer
-# WORKDIR /var/www/html
-# FROM php:8.0-apache
 FROM stripe/stripe-cli
-FROM php:8.0.5-fpm-alpine
-# FROM httpd:alpine3.16
+FROM php:7.4-fpm-alpine
 USER root
 
 # EXPOSE 8080
@@ -14,7 +11,7 @@ RUN apk add make \
     nginx \
     git \
     nano \
-    # gedit \
+    gedit \
     curl \
     php-zip\
     # php-apcu \

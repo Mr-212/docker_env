@@ -1,47 +1,76 @@
 version: '3.7'
 
 services:
+  # apache:
+  #   container_name: httpd
+  #   build:
+  #     context: .
+  #     dockerfile: ./apache/Dockerfile
+  #   #command: 'php artisan serve --host=0.0.0.0 --port=8002'  
+  #   ports:
+  #     - 81:80
+  #     # - 2525:2525
+  #   volumes:
+  #     - ${HOST_DIR}:${WORKING_DIR}
+  #     - ./apache/officio.conf:/usr/local/apache2/conf/officio.conf
+  #       # - ./apache/000-default.conf:/etc/apache2/sites-available/000-default.conf
+  #     # - ./apache/officio.conf:/etc/apache2/sites-available/officio.conf
+  #     # - ./apache/000-default.conf:/user/local/conf/sites/000-default.conf
 
-  apache:
+  #   env_file:
+  #     - ./.env
+  #   networks:
+  #     - app-network 
+  php74_alpine:
+    container_name: php74_alpine
     build:
       context: .
-      dockerfile: ./apache/Dockerfile
-    #command: 'php artisan serve --host=0.0.0.0 --port=8002'  
-    # ports:
-    #   # - 80:80
-    #   - 80:80
+      dockerfile: ./php74_alpine/Dockerfile
+    ports:
+      - 80:80
+      - 8001:8000
     volumes:
       - ${HOST_DIR}:${WORKING_DIR}
-      - ./apache/000-default.conf:/etc/apache2/sites-available/000-default.conf
+      # - ./php74/000-default.conf:/etc/apache2/sites-available/000-default.conf
     env_file:
       - ./.env
     networks:
       - app-network 
+
   php74:
+    container_name: php74
     build:
       context: .
       dockerfile: ./php74/Dockerfile
     ports:
-      # - 80:80
-      - 8001:80
+      - 80:80
+      - 8002:8000
     volumes:
       - ${HOST_DIR}:${WORKING_DIR}
-      - ./php74/000-default.conf:/etc/apache2/sites-available/000-default.conf
+      # - ./php74/000-default.conf:/etc/apache2/sites-available/000-default.conf
     env_file:
       - ./.env
     networks:
-      - app-network 
+      - app-network     
 
   php8.0:
+    container_name: php80
     build:
       context: .
       dockerfile: ./php8.0/Dockerfile
-    #command: 'php artisan serve --host=0.0.0.0 --port=8002'  
+    # command: 'chmod -R 0777 ${WORKING_DIR}'  
     ports:
-      # - 80:80
-      - 8002:8002
+      # - "80:80"
+      - "8007:8007"
+      - "2525:2525"
+    # expose:
+    #   - 8000
+    #   - 80
+
     volumes:
       - ${HOST_DIR}:${WORKING_DIR}
+      - ./apache/officio.conf:/etc/apache2/sites-available/officio.conf
+
       # - ./php74/000-default.conf:/etc/apache2/sites-available/000-default.conf
     env_file:
       - ./.env
