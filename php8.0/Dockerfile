@@ -11,34 +11,37 @@ USER root
 RUN apk update && apk add --no-cache \
     make git nano vim curl \
     apache2 nginx \
-    freetype-dev libjpeg-turbo-dev libltdl libmcrypt-dev bzip2-dev libxslt-dev openssl-dev imap-dev krb5-dev oniguruma-dev libpng-dev libxslt-dev icu-dev g++ \
-    php-zip php-curl php-mysqli php-pdo_mysql \
-    php-gd php-exif php-tokenizer php-iconv php-intl php-mbstring  php-opcache \
-    php-sockets php-json \
-    php-opcache php-openssl php-pcntl \
-    php-dom php-xml php-xmlwriter php-fileinfo php-zlib php-session php-simplexml
+    libzip-dev \
+    freetype-dev libjpeg-turbo-dev libltdl libmcrypt-dev bzip2-dev libxslt-dev openssl-dev imap-dev krb5-dev oniguruma-dev libpng-dev libxslt-dev icu-dev g++
+    # php-zip php-curl php-mysqli php-pdo_mysql \
+    # php-gd php-exif php-tokenizer php-iconv php-intl php-mbstring php-opcache \
+    # php-sockets php-json \
+    # php-opcache php-openssl php-pcntl \
+    # php-dom php-xml php-xmlwriter php-fileinfo php-zlib php-session php-simplexml
 
 
 
-# RUN docker-php-ext-install \
-#     zip\
-#     mysqli \
-#     exif \
-#     gd \
-#     intl \
-#     mbstring \
-#     opcache \
-#     pdo_mysql \
-#     sockets
+RUN docker-php-ext-install \
+    zip\
+    mysqli \
+    exif \
+    gd \
+    intl \
+    mbstring \
+    opcache \
+    pdo_mysql \
+    sockets
 
 #compose path setting 
 COPY --from=composer /usr/bin/composer /usr/bin/composer
 
 # node path setting
 
-# COPY --from=node /usr/local/lib/node_modules /usr/local/lib/node_modules
+COPY --from=node /usr/local/lib/node_modules /usr/local/lib/node_modules
 COPY --from=node /usr/local/bin/node /usr/local/bin/node
 RUN ln -sf /usr/local/lib/node_modules/npm/bin/npm-cli.js /usr/local/bin/npm
+
+RUN npm install --global npx yarn 
 
 
 # COPY --from=node /usr/local/bin/npm /usr/local/bin/npm
