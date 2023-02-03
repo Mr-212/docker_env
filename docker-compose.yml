@@ -62,7 +62,7 @@ services:
     # command: 'chmod -R 0777 ${WORKING_DIR}'  
     ports:
       # - "80:80"
-      - "8001:8000"
+      - "8000:8000"
       - "2525:2525"
       - "3000:3000"
 
@@ -72,7 +72,7 @@ services:
 
     volumes:
       - ${HOST_DIR}:${WORKING_DIR}
-      - ./apache/officio.conf:/etc/apache2/sites-available/officio.conf
+      # - ./apache/officio.conf:/etc/apache2/sites-available/officio.conf
 
       # - ./php74/000-default.conf:/etc/apache2/sites-available/000-default.conf
     env_file:
@@ -98,7 +98,7 @@ services:
     # command: --default-authentication-plugin=mysql_native_password #--datadir=/var/lib/mysql-no-volume
     restart: always
     volumes:
-      - ./volumes/mysql1:/var/lib/mysql
+      - ./mysql_volume:/var/lib/mysql
     environment:
       # MYSQL_USER: user
       # MYSQL_USER: 'user'
@@ -129,6 +129,10 @@ services:
 networks:
   app-network:
     driver: bridge
+    name: php80
+  # network:
+  #   driver: bridge
+  #   name: app-network  
 
 # volumes:
 #   host_dir:

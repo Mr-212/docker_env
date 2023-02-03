@@ -1,4 +1,6 @@
-FROM node:18-alpine3.15 AS node
+# FROM node:18-alpine3.15 AS node
+FROM node:16-alpine3.16 AS node
+
 FROM composer:2.3 AS composer
 # WORKDIR /var/www/html
 # FROM php:8.0-apache
