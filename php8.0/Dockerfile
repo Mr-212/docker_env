@@ -3,7 +3,7 @@ FROM node:16-alpine3.16 AS node
 
 FROM composer:2.3 AS composer
 # WORKDIR /var/www/html
-# FROM php:8.0-apache
+FROM php:8.0-apache
 FROM stripe/stripe-cli
 FROM php:8.0.5-fpm-alpine
 # FROM httpd:alpine3.16
@@ -12,7 +12,7 @@ USER root
 # EXPOSE 8080
 RUN apk update && apk add --no-cache \
     make git nano vim curl \
-    apache2 nginx \
+    nginx \
     libzip-dev \
     freetype-dev libjpeg-turbo-dev libltdl libmcrypt-dev bzip2-dev libxslt-dev openssl-dev imap-dev krb5-dev oniguruma-dev libpng-dev libxslt-dev icu-dev g++
     # php-zip php-curl php-mysqli php-pdo_mysql \
@@ -39,9 +39,9 @@ COPY --from=composer /usr/bin/composer /usr/bin/composer
 
 # node path setting
 
-COPY --from=node /usr/local/lib/node_modules /usr/local/lib/node_modules
-COPY --from=node /usr/local/bin/node /usr/local/bin/node
-RUN ln -sf /usr/local/lib/node_modules/npm/bin/npm-cli.js /usr/local/bin/npm
+# COPY --from=node /usr/local/lib/node_modules /usr/local/lib/node_modules
+# COPY --from=node /usr/local/bin/node /usr/local/bin/node
+# RUN ln -sf /usr/local/lib/node_modules/npm/bin/npm-cli.js /usr/local/bin/npm
 
 RUN npm install --global npx yarn 
 
@@ -71,4 +71,4 @@ RUN npm install --global npx yarn
 
 # Srart httpd when container runs
 # ENTRYPOINT ["/usr/sbin/httpd"]
-CMD ["php-fpm"]
+# CMD ["php-fpm"]

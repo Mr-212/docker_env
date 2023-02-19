@@ -55,38 +55,37 @@ services:
   #     - app-network     
 
   php80:
-    container_name: php80
+    container_name: php80_app
     build:
       context: .
-      dockerfile: ./php8.0/Dockerfile
+      dockerfile: ./php80-apache/Dockerfile
     # command: 'chmod -R 0777 ${WORKING_DIR}'  
     ports:
-      # - "80:80"
-      - "8000:8000"
+      - "8001:80"
+      - "8001:8000"
       - "2525:2525"
       - "3000:3000"
-
-    # expose:
-    #   - 8000
-    #   - 80
-
     volumes:
       - ${HOST_DIR}:${WORKING_DIR}
       # - ./apache/officio.conf:/etc/apache2/sites-available/officio.conf
-
-      # - ./php74/000-default.conf:/etc/apache2/sites-available/000-default.conf
     env_file:
       - ./.env
     networks:
       - app-network     
 
-  # nodejs:
+  # nodejs16:
   #   build: 
   #     context: .
-  #     dockerfile: ./node/Dockerfile
-  #   container_name: nodejs
+  #     dockerfile: ./node16/Dockerfile
+
+  #   # env_file: 
+  #   #   - ./.env  
+  #   container_name: nodejs16
+  #   ports:
+  #     - "3000:3000"
   #   volumes:
-  #     - ./www:/var/www/html
+  #     - /var/www/next_crm:/var/www/next_crm
+  #   command: 'npm run dev'  
   #   networks:
   #     - app-network
   #   restart: 'no'
@@ -120,7 +119,7 @@ services:
     restart: always
     ports:
       - '6379:6379'
-    command: redis-server --save 20 1 --loglevel warning --requirepass eYVX7EwVmmxKPCDmwMtyKVge8oLd2t81
+    command: redis-server --save --loglevel warning --requirepass eYVX7EwVmmxKPCDmwMtyKVge8oLd2t81
     volumes: 
       - ./cache:/var/lib/redis
     networks:
