@@ -59,6 +59,7 @@ services:
     build:
       context: .
       dockerfile: ./php80-apache/Dockerfile
+    # image: php80_app:latest
     # command: 'chmod -R 0777 ${WORKING_DIR}'  
     ports:
       - "8001:80"
@@ -106,13 +107,17 @@ services:
       
       MYSQL_ROOT_PASSWORD: root #example of a password
     ports:
-      - '3306:3306'  
+      - '3306:3306'
+    networks:
+      - app-network  
 
   phpmyadmin:
     image: phpmyadmin
     restart: always
     ports:
       - 8080:80
+    networks:
+    - app-network  
 
   cache:
     image: redis:6.2-alpine
