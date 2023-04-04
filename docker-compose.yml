@@ -54,25 +54,25 @@ services:
   #   networks:
   #     - app-network     
 
-  php80:
-    container_name: php80_app
-    build:
-      context: .
-      dockerfile: ./php80-apache/Dockerfile
-    # image: php80_app:latest
-    # command: 'chmod -R 0777 ${WORKING_DIR}'  
-    ports:
-      - "8001:80"
-      - "8001:8000"
-      - "2525:2525"
-      - "3000:3000"
-    volumes:
-      - ${HOST_DIR}:${WORKING_DIR}
-      # - ./apache/officio.conf:/etc/apache2/sites-available/officio.conf
-    env_file:
-      - ./.env
-    networks:
-      - app-network     
+  # php80:
+  #   container_name: php80_app
+  #   build:
+  #     context: .
+  #     dockerfile: ./php80-apache/Dockerfile
+  #   # image: php80_app:latest
+  #   # command: 'chmod -R 0777 ${WORKING_DIR}'  
+  #   # ports:
+  #   #   - "8001:80"
+  #   #   # - "8001:8000"
+  #   #   - "2525:2525"
+  #   #   - "3000:3000"
+  #   # volumes:
+  #   #   - ${HOST_DIR}:${WORKING_DIR}
+  #     # - ./apache/officio.conf:/etc/apache2/sites-available/officio.conf
+  #   env_file:
+  #     - ./.env
+  #   networks:
+  #     - app-network     
 
   # nodejs16:
   #   build: 
@@ -93,12 +93,14 @@ services:
     
 
   db:
-    image: mysql
+    image: mysql:8
     container_name: mysql
-    # command: --default-authentication-plugin=mysql_native_password #--datadir=/var/lib/mysql-no-volume
+    # command:        TMPDIR=/var/lib/grafana/tmp  #--default-authentication-plugin=mysql_native_password #--datadir=/var/lib/mysql-no-volume
     restart: always
     volumes:
       - ./mysql_volume:/var/lib/mysql
+    
+ 
     environment:
       # MYSQL_USER: user
       # MYSQL_USER: 'user'
